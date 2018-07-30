@@ -66,6 +66,7 @@ public class MyBufferReader {
 		mbr1.fr.close();
 		MyBufferReader mbr2 = new MyBufferReader(new FileReader("demo.txt"));
 		String line = null;
+		//change some line then commit
 		while ((line = mbr2.myReadLine()) != null) {
 			System.out.println(line);
 		}
