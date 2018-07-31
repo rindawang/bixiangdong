@@ -18,10 +18,33 @@ public class FileDemo {
 		demo_FileCheck();
 		demo_Rename();
 		demo_listRoot();
-		demo_listFilter();*/
-		demo_deepSearch();
+		demo_listFilter();
+		demo_deepSearch();*/
+		demo_deleteDirectory();
 		
 
+	}
+
+	private static void demo_deleteDirectory() {
+		// TODO Auto-generated method stub
+		File path = new File("D:\\ºº ı Èpdf\\tobedelete");
+		
+		recursionDelete(path);
+
+	}
+
+	private static void recursionDelete(File path) {
+		// TODO Auto-generated method stub
+		if(path.isFile()){
+			path.delete();
+			
+		}else{
+			for(File f: path.listFiles()){
+				recursionDelete(f);
+			}
+			path.delete();
+		}
+		
 	}
 
 	private static void demo_deepSearch() {
