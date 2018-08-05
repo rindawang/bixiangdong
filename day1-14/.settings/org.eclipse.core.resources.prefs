@@ -1,4 +1,9 @@
 eclipse.preferences.version=1
+encoding//com/piped/stream/ByteArrayStreamDemo.java=UTF-8
+encoding//com/piped/stream/DataStreamDemo.java=UTF-8
+encoding//com/piped/stream/EncodeDecode.java=UTF-8
+encoding//com/piped/stream/GetMaxByte.java=UTF-8
+encoding//com/piped/stream/PipedSteam.java=UTF-8
 encoding//ioStream/EncodeWriter.java=UTF-8
 encoding//ioStream/Factor4Deside.java=UTF-8
 encoding//ioStream/MyBufferReader.java=UTF-8
