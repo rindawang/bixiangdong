@@ -67,10 +67,20 @@ class Input implements Runnable {
 		while (true) {
 			if (i == 0) {
 				p.set("Mike", "Male");
-				System.out.println("Set Mike");
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			} else {
 				p.set("Lily", "Female");
-				System.out.println("Set lily");
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			i = ++i % 2;
 		}
