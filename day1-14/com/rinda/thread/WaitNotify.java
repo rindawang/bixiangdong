@@ -9,7 +9,6 @@ public class WaitNotify {
 		Thread t2 = new Thread(output);
 
 		t2.start();
-		Thread.currentThread().sleep(10000);
 		t1.start();
 	}
 }
@@ -19,28 +18,38 @@ class Person {
 	private String sex;
 	private boolean flag;
 
-	public String getName() {
-		return name;
+	public synchronized void set(String name, String sex) {
+		if (!flag) {
+			this.name = name;
+			this.sex = sex;
+			this.flag = true;
+			notify();
+		} else {
+			try {
+				//System.out.println("set value else block");
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getSex() {
-		return sex;
-	}
-
-	public void setSex(String sex) {
-		this.sex = sex;
-	}
-
-	public boolean isFlag() {
-		return flag;
-	}
-
-	public void setFlag(boolean flag) {
-		this.flag = flag;
+	public synchronized void out() {
+		if (flag) {
+			System.out.println("----------------------------------" + name + ": " + sex);
+			flag = false;
+			notify();
+		} else {
+			try {
+				//System.out.println("out else block");
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }
 
@@ -56,34 +65,16 @@ class Input implements Runnable {
 		// TODO Auto-generated method stub
 		int i = 0;
 		while (true) {
-			synchronized (p) {
-				if (!p.isFlag()) {
-					if (i == 0) {
-						p.setName("Mike");
-						p.setSex("Male");
-					} else {
-						p.setName("Lily");
-						p.setSex("Female");
-					}
-					p.setFlag(true);
-					i = ++i % 2;
-					p.notify();
-
-				} else {
-					System.out.println("input else wait");
-					try {
-						p.wait();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-	
-				}
-
+			if (i == 0) {
+				p.set("Mike", "Male");
+				System.out.println("Set Mike");
+			} else {
+				p.set("Lily", "Female");
+				System.out.println("Set lily");
 			}
+			i = ++i % 2;
 		}
-
 	}
-
 }
 
 class Output implements Runnable {
@@ -97,22 +88,7 @@ class Output implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 		while (true) {
-			synchronized (p) {
-				if (p.isFlag()) {
-					System.out.println(p.getName() + ": " + p.getSex());
-					p.setFlag(false);
-					p.notify();
-
-				} else {
-					System.out.println("output else wait");
-					try {
-						p.wait();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			}
+			p.out();
 		}
 	}
-
 }
