@@ -17,7 +17,7 @@ public class OriginWaitNotify {
 class OPerson {
 	private String name;
 	private String sex;
-	private boolean flag;
+	private boolean flag=false;
 
 	public String getName() {
 		return name;

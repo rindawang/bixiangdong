@@ -16,40 +16,38 @@ public class WaitNotify {
 class Person {
 	private String name;
 	private String sex;
-	private boolean flag;
+	private boolean flag = false;
 
 	public synchronized void set(String name, String sex) {
-		if (!flag) {
-			this.name = name;
-			this.sex = sex;
-			this.flag = true;
-			notify();
-		} else {
+		if (flag) {
 			try {
-				//System.out.println("set value else block");
+				// System.out.println("set value else block");
 				wait();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+		this.name = name;
+		this.sex = sex;
+		this.flag = true;
+		notify();
 
 	}
 
 	public synchronized void out() {
-		if (flag) {
-			System.out.println("----------------------------------" + name + ": " + sex);
-			flag = false;
-			notify();
-		} else {
+		if (!flag) {
 			try {
-				//System.out.println("out else block");
+				// System.out.println("out else block");
 				wait();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+		System.out.println("----------------------------------" + name + ": " + sex);
+		flag = false;
+		notify();
 	}
 }
 
@@ -67,20 +65,8 @@ class Input implements Runnable {
 		while (true) {
 			if (i == 0) {
 				p.set("Mike", "Male");
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			} else {
 				p.set("Lily", "Female");
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
 			i = ++i % 2;
 		}
